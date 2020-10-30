@@ -23,6 +23,7 @@ class FirstFragment: Fragment() {
      var wins = 0
      var loss = 0
      var draw = 0
+
     private lateinit var navController: NavController
     private val mainScope = CoroutineScope(Dispatchers.Main)
     private lateinit var gamesRepository : GameRepository
@@ -44,29 +45,29 @@ class FirstFragment: Fragment() {
         setHasOptionsMenu(true)
         super.onViewCreated(view, savedInstanceState)
         navController = findNavController()
+        states()
+        initHands()
+    }
 
+// function for playing the hand
+    fun initHands(){
         rock.setOnClickListener(){
             move(Hands.ROCK)
             player.setImageResource(R.drawable.rock)
-
         }
         paper.setOnClickListener(){
             move(Hands.PAPER)
             player.setImageResource(R.drawable.paper)
-
-
         }
         scissor.setOnClickListener(){
             move(Hands.SCISSOR)
             player.setImageResource(R.drawable.scissors)
 
         }
-
         gamesRepository = GameRepository(requireContext())
-
-        states()
     }
 
+    //Creating a Menu actionbar
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         inflater.inflate(R.menu.menu_game, menu)
         val actionbar = (activity as AppCompatActivity).supportActionBar
@@ -76,7 +77,7 @@ class FirstFragment: Fragment() {
         }
         super.onCreateOptionsMenu(menu, inflater)
     }
-
+    //adding function to menu item
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             R.id.btn_history -> {
@@ -89,6 +90,7 @@ class FirstFragment: Fragment() {
     }
 
 
+    //function for the Move
     fun move(playerMove: Hands){
         val cpuMove = listOfHands.random()
         val result = calculateWinner(playerMove , cpuMove)
@@ -96,12 +98,12 @@ class FirstFragment: Fragment() {
         saveGame(game)
 
     }
-
+    //Updates the states
     fun updateStats(){
         textView3.text = getString(R.string.win_draw_lose, wins,draw,loss)
     }
 
-
+//Saves the game in the repo
     private fun saveGame(game: Game) {
         mainScope.launch {
                 withContext(Dispatchers.IO){
@@ -110,7 +112,7 @@ class FirstFragment: Fragment() {
             }
         return
         }
-
+//Calculates the Winner
     private fun calculateWinner(playerMove: Hands, cpuMove: Hands): String {
         if ((playerMove == Hands.ROCK && cpuMove == Hands.SCISSOR)
             || playerMove == Hands.SCISSOR && cpuMove == Hands.PAPER ||
@@ -132,6 +134,7 @@ class FirstFragment: Fragment() {
         }
     }
 
+    //Updates the states from the repo
     private fun states(){
         mainScope.launch {
             withContext(Dispatchers.Main){
@@ -151,13 +154,6 @@ class FirstFragment: Fragment() {
                 updateStats()
             }
         }
-    }
-
-    public fun setStatesOnZero(){
-        wins=0
-        loss=0
-        draw=0
-
     }
 
 }

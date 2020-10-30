@@ -22,6 +22,7 @@ import kotlin.math.log
  * A simple [Fragment] subclass as the second destination in the navigation.
  */
 class HistoryFragment : Fragment() {
+    // Instatiate navController, Gamerepo and MainScope, Gameadapter
     private lateinit var navController: NavController
     private lateinit var gamesRepository: GameRepository
     private val mainScope = CoroutineScope(Dispatchers.Main)
@@ -43,6 +44,8 @@ class HistoryFragment : Fragment() {
         gamesRepository = GameRepository(requireContext())
         getGamesFromDatabase()
     }
+
+    //Creating a Menu actionbar
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         inflater.inflate(R.menu.menu_history, menu)
         val actionbar = (activity as AppCompatActivity).supportActionBar
@@ -53,6 +56,7 @@ class HistoryFragment : Fragment() {
         super.onCreateOptionsMenu(menu, inflater)
     }
 
+    //adding function to menu item
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             R.id.btn_delete_all -> {
@@ -69,6 +73,7 @@ class HistoryFragment : Fragment() {
         rvHistory.adapter = gameAdapter
     }
 
+    //Get the games from the database and notify the adapter changed
     private fun getGamesFromDatabase() {
         mainScope.launch {
             val games = withContext(Dispatchers.IO) {
@@ -79,6 +84,7 @@ class HistoryFragment : Fragment() {
             gameAdapter.notifyDataSetChanged()
         }
     }
+
     private fun clearHistory() {
         mainScope.launch {
          gamesRepository.deleteAllGames()

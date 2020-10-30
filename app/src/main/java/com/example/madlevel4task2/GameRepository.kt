@@ -3,6 +3,7 @@ package com.example.madlevel4task2
 import android.content.Context
 import model.Game
 
+//Game Repo that Connects with the Dao
 class GameRepository(context: Context) {
         private val gameDao: GameDao
 

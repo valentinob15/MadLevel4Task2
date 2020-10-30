@@ -12,8 +12,8 @@ class GameAdapter(private val games: List<Game>) : RecyclerView.Adapter<GameAdap
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
+        //Binds teh data to the view
         fun databind(game: Game) {
-
             val cpuImage = Hands.returnImage(game.cpuHand)
             val playerImage = Hands.returnImage(game.playerHand)
             if (cpuImage != null) {
@@ -27,6 +27,7 @@ class GameAdapter(private val games: List<Game>) : RecyclerView.Adapter<GameAdap
         }
     }
 
+    //Inflate the layout into to the Gamehistory XML
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         return ViewHolder(
             LayoutInflater.from(parent.context).inflate(R.layout.game_history_layout, parent, false)
@@ -37,6 +38,7 @@ class GameAdapter(private val games: List<Game>) : RecyclerView.Adapter<GameAdap
         holder.databind(games[position])
     }
 
+    //Returns size of array
     override fun getItemCount(): Int {
         return games.size
     }

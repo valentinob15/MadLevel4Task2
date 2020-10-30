@@ -10,10 +10,9 @@ import model.Game
 abstract class GameRoomDatabase : RoomDatabase() {
 
     abstract fun gameDao(): GameDao
-
+//Making the DataBase
     companion object {
         private const val DB_NAME = "GAME_DATABASE"
-
         @Volatile
         private var gameRoomDatabaseInstance: GameRoomDatabase? = null
 

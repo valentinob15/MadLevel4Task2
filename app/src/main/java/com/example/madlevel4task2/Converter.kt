@@ -3,6 +3,7 @@ package com.example.madlevel4task2
 import androidx.room.TypeConverter
 import java.util.*
 
+// Converter class that convert date to long and long to Date
 class Converter {
 
     @TypeConverter
